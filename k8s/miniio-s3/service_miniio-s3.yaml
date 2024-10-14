@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: miniio-s3 # Adjust service name as needed
+spec:
+  type: LoadBalancer  # MiniIO will be using LoadBalancer
+  selector:
+    app: miniio-s3
+  ports:
+  - name: s3-port # Adjust S3 port name as needed
+    port: 9000  # Adjust port as needed
+    targetPort: 9000
+    protocol: TCP
+  - name: s3-port-ui # Adjust S3 UI port name as needed
+    port: 9001  # Adjust port as needed
+    targetPort: 9001  # Adjust port as needed
+    protocol: TCP

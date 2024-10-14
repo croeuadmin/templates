@@ -1,0 +1,30 @@
+services:
+
+  ollama-server:
+    image: ollama/ollama:0.1.46 # Update with custom or latest Docker image
+    container_name: ollama-server # Adjust container name as needed
+    restart: unless-stopped
+
+    networks:
+      - ollama-network # Rename network as needed
+
+    ports:
+      - 11434:11434 # Replace ports as needed
+
+    extra_hosts:
+      - FQDN:xxx.xxx.xxx.xxx  # Added for FQDN resolving (optional) if exposed on network, otherwise use Docker container DNS
+
+    volumes:
+      - /path/to/ollama:/root/.ollama # Adjust path or replace bind mount with dedicated volume
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+           - driver: nvidia
+             device_ids: ['0']  # Repalce Nvidia GPU ID
+             capabilities: [gpu]
+
+networks:
+  ollama-network:
+    name: ollama-network

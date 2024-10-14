@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: transmission-app  # Adjust Ingress objet name as needed
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: transmission-app
+spec:
+  rules:
+  - host: FQDN  # Adjust with custom domain and URL as needed (example: download.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: / # Adjust path as needed
+        backend:
+          service:
+            name: transmission-app  # Adjust service name as needed
+            port:
+              number: 9091  # Adjust port as needed
+  tls:
+  - hosts:
+    - FQDN  # Adjust with custom domain and URL as needed (example: download.custom.com)
+    secretName: transmission-app-tls-secret # Adjust Ingress objet TSL secret name
+

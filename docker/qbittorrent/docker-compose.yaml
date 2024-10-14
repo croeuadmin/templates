@@ -1,0 +1,25 @@
+services:
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:5.0.0  # Adjust with custom or latest Docker image
+    container_name: qbittorrent # Adjust container name as needed
+    networks: qbittorrent-network
+    environment:
+      - PUID=1000 # The default UID
+      - PGID=1000 # The default GID
+      - TZ=Europe/Zagreb  # Adjust time zone as needed
+      - WEBUI_PORT=9092 # Adjust port as needed (defained for container)
+      - TORRENTING_PORT=51414 # Adjust port as needed (defained for container)
+    volumes:
+      - /path/to/custom/qbittorrent/appdata:/config # Adjust bind mount folder as needed or use dedicated Docker volume
+      - /path/to/custom/qbittorrent/downloads:/downloads # Adjust bind mount folder as needed or use dedicated Docker volume
+    ports:
+      - 9092:9092 # Adjust port as needed
+      - 51414:51414/tcp # Adjust port as needed
+      - 51414:51414/udp # Adjust port as needed
+    restart: unless-stopped
+
+networks:
+  qbittorrent-network:
+    name: qbittorrent-network
+

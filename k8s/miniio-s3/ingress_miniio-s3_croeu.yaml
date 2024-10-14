@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: miniio-s3 # Adjust Ingress object name for MiniIO S3 as needed
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: miniio-s3
+spec:
+  rules:
+  - host: FQDN  # Adjust the host name with custom domain and URL (s3.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: miniio-s3 # Adjust service name as needed
+            port:
+              number: 9000  # Adjust the port as needed
+  tls:
+  - hosts:
+    - FQDN  # Adjust the host name with custom domain and URL (s3.custom.com)
+    secretName: miniio-s3-tls-secret  # Adjust Ingress object TLS secret name
+

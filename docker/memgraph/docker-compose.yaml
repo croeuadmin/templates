@@ -1,0 +1,42 @@
+services:
+  memgraph-mage:
+    image: memgraph/memgraph-mage:1.20-memgraph-2.20  # Use custom or latest Docker image
+    container_name: memgraph-mage # Adjust container name as needed
+    networks:
+      - memgraph-network  # Adjust network name as needed
+    ports:
+      - 7687:7687 # Adjust ports as needed (these are default ones)
+      - 7444:7444 # Adjust ports as needed (these are default ones)
+    environment:
+      MEMGRAPH_USER: "admin"  # Replace user name as needed
+      MEMGRAPH_PASSWORD: "password" # Replace password with stronger one
+    command: ["--log-level=TRACE"]
+    volumes:
+      - memgraph_lib:/var/lib/memgraph  # Use dedicated Docker volume and rename as needed
+      - memgraph_log:/var/log/memgraph  # Use dedicated Docker volume and rename as needed
+      - memgraph_etc:/etc/memgraph  # Use dedicated Docker volume and rename as needed
+
+  memgraph-lab:
+    image: memgraph/lab:2.17.0  # Use custom or latest Docker image
+    container_name: memgraph-lab # Adjust container name as needed
+    networks:
+      - memgraph-network # Adjust network name as needed
+    ports:
+      - 3000:3000 # Adjust ports as needed (these are default ones)
+    depends_on:
+      - memgraph-mage
+    environment:
+      QUICK_CONNECT_MG_HOST: "memgraph-mage"  # Adjust as needed, otherwise use Docker container DNS for resolving host name
+      QUICK_CONNECT_MG_PORT: "7687" # Adjust port as needed (as set for Memgraph database container port)
+
+networks:
+  memgraph-network:
+    name: memgraph-network
+
+volumes:
+  memgraph_lib:
+    name: memgraph_lib
+  memgraph_log:
+    name: memgraph_log
+  memgraph_etc:
+    name: memgraph_etc

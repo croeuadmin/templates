@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent-app # Adjust service name as needed
+spec:
+  type: LoadBalancer  # QBitTorrent will use LoadBalancer
+  selector:
+    app: qbittorrent-app
+  ports:
+  - name: http  # Adjust port name as needed
+    port: 9092  # Adjust port as needed
+    targetPort: 9092 # Adjust port as needed
+    protocol: TCP
+  - name: peer-tcp # Adjust port name as needed
+    port: 51414 # Adjust port as needed
+    targetPort: 51414 # Adjust port as needed
+    protocol: TCP
+  - name: peer-udp # Adjust port name as needed
+    port: 51414 # Adjust port as needed
+    targetPort: 51414 # Adjust port as needed
+    protocol: UDP
+

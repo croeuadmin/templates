@@ -1,0 +1,25 @@
+services:
+
+  postgres-db:
+    image: postgres:16.2  # Adjust as needed with custom or latest Docker image
+    container_name: postgres-db # Adjust container name if needed
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: 'postgres-db'  # Adjust Postgres database name
+      POSTGRES_USER: 'postgres-user'  # Adjust Postgres user name
+      POSTGRES_PASSWORD: 'mgUc-83fQ-zOp1-91mT'  # Adjust Postgres user password
+      POSTGRES_ROOT_PASSWORD: 'k3Ct-0c1W-jV65-qL20' # Adjust Postgres root user password
+
+    networks:
+      - postgres-network  # Adjust Postgres network name if needed
+
+    ports:
+      - 5432:5432 # Adjust Postgres port if needed (this is default one)
+
+    volumes:
+      - /path/to/custom/postgres/data:/var/lib/postgresql/data  # Adjust bind mount folder if needed or use dedicated Docker volume
+
+networks:
+  postgres-network:
+    name: postgres-network
+

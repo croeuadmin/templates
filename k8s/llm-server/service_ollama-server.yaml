@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-server-service # Adjust service name as needed
+spec:
+  type: ClusterIP # Ollama will be using ClusterIP
+  selector:
+    app: ollama-server
+  ports:
+  - name: http
+    port: 11434 # Adjust port as needed
+    targetPort: 11434 # Adjust port as needed
+    protocol: TCP
+

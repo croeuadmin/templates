@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana # Adjust Ingress object name as needed
+  namespace: prometheus
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: grafana
+spec:
+  rules:
+  - host: FQDN  # Adjust with custom domain and URL as needed (example grafana.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: / # Adjust path as needed
+        backend:
+          service:
+            name: kube-prometheus-stack-grafana # Adjust with created service name (after DCGM deployment)
+            port:
+              number: 80  # Adjust the port as needed
+  tls:
+  - hosts:
+    - FQDN  # Adjust with custom domain and URL as needed (example grafana.custom.com)
+    secretName: grafana-tls-secret  # Adjust Ingress objet TLS secret name
+

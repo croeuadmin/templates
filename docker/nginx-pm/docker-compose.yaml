@@ -1,0 +1,31 @@
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'  # Adjust with custom or latest Docker image
+    restart: unless-stopped
+    ports:
+      - '80:80' # NginX Proxy Manager public HTTP Port
+      - '443:443' # NginX Proxy Manager public HTTPS Port
+      - '81:81' # NginX Proxy Manager Admin Web Port (not recommended to be exposed on the internet)
+    environment:
+      DB_MYSQL_HOST: 'mysql-server' # Adjust as needed (MySQL database host name)
+      DB_MYSQL_PORT: 3306 # Adjust as needed (MySQL database port)
+      DB_MYSQL_USER: 'mysql-user' # Adjust as needed (MySQL login user name)
+      DB_MYSQL_PASSWORD: 'mysql-pass' # Adjust as needed (MySQL login user password)
+      DB_MYSQL_NAME: 'nginx-proxy-db' # Adjust as needed (MySQL database name)
+    volumes:
+      - /path/to/nginx/custom/data:/data # Adjust bind mount as needed or use dedicated Docker volume
+      - /path/to/nginx/custom/letsencrypt:/etc/letsencrypt # Adjust bind mount as needed or use dedicated Docker volume
+    depends_on:
+      - db
+
+  db:
+    image: 'jc21/mariadb-aria:latest'  # Adjust with custom or latest Docker image
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mysql-root-password' # Adjust as needed (MySQL root user password)
+      MYSQL_DATABASE: 'nginx-proxy-db' # Adjust as needed (MySQL database name)
+      MYSQL_USER: 'mysql-user' # Adjust as needed (MySQL login user name)
+      MYSQL_PASSWORD: 'mysql-pass' # Adjust as needed (MySQL login user password)
+      MARIADB_AUTO_UPGRADE: '1' # Adjust as needed
+    volumes:
+      - /path/to/nginx/custom/mysql:/var/lib/mysql # Adjust bind mount as needed or use dedicated Docker volume

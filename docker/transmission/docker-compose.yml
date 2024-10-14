@@ -1,0 +1,41 @@
+services:
+
+  app:
+    image: lscr.io/linuxserver/transmission:4.0.5 # Adjust with custom or latest Docker image
+    restart: unless-stopped
+    networks:
+      - torrent-net # Adjust network name as needed
+    ports:
+      - 9091:9091/tcp # Adjust port as needed
+      - 51413:51413/tcp # Adjust port as needed
+      - 51413:51413/udp # Adjust port as needed
+    environment:
+      PUID: 1000  # The default UID
+      PGID: 1000  # The default GID
+      TZ: 'Europe/Zagreb' # Adjust time zone as needed
+      USER: 'user'  # Adjust user name as needed
+      PASS: 'password'  # Adjust user password as needed
+    volumes:
+      - /path/to/custom/transmission/config:/config # Adjust custom bind mount folder or use dedicated Docker volume
+      - /path/to/custom/transmission/downloads:/downloads # Adjust custom bind mount folder or use dedicated Docker volume
+      - /path/to/custom/transmission/watch:/watch # Adjust custom bind mount folder or use dedicated Docker volume
+
+  web:
+    image: nginx:1.25.5 # Adjust with custom or latest Docker image
+    restart: unless-stopped
+    depends_on:
+      - app
+    networks:
+      - torrent-net # Adjust network name as needed
+    ports:
+      - 8080:9090/tcp # Adjust port as needed
+    volumes:
+      - /path/to/custom/nginx_certs:/certs:ro # Adjust custom bind mount folder or use dedicated Docker volume
+      - /path/to/custom/nginx_conf/nginx.conf:/etc/nginx/nginx.conf:ro # Adjust the path and file name for custom configuration file
+      - /path/to/custom/nginx_conf/ssl.conf:/etc/nginx/includes/ssl.conf:ro # Adjust the path and file name for custom configuration file
+      - /path/to/custom/nginx_conf/proxy.conf:/etc/nginx/includes/proxy.conf:ro # Adjust the path and file name for custom configuration file
+
+networks:
+  torrent-net:
+    name: torrent-net
+

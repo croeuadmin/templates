@@ -1,0 +1,4 @@
+Upon first startup, administrator password is displayed in the container/pod logs.
+
+Default user name is "admin" and inital password must be changed on first login (set manually).
+For each container/pod start, the default admin password will be changed unless configured manually.

@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nexus3-croeu  # Adjust Ingress object name as needed
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: nexus3
+spec:
+  rules:
+  - host: FQDN  # Adjust with custom domain and URL as needed (example nexus.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: / # Adjust path as needed
+        backend:
+          service:
+            name: nexus3  # Adjust service name as needed
+            port:
+              number: 8081  # Adjust port as needed
+  tls:
+  - hosts:
+    - FQDN  # Adjust with custom domain and URL as needed (example nexus.custom.com)
+    secretName: nexus3-tls-secret # Adjust Ingress TLS secret name as needed
+

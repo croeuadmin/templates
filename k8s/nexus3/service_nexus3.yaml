@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus3  # Adjust service name as needed
+spec:
+  type: LoadBalancer  # Nexus will be using LoadBalancer
+  selector:
+    app: nexus3
+  ports:
+  - name: nexus3-ui # Adjust port name as needed
+    port: 8081  # Adjust port as needed
+    targetPort: 8081  # Adjust port as needed
+    protocol: TCP
+  - name: nexus3-http # Adjust port name as needed
+    port: 8082  # Adjust port as needed
+    targetPort: 8082  # Adjust port as needed
+    protocol: TCP
+  - name: nexus3-https # Adjust port name as needed
+    port: 8083  # Adjust port as needed
+    targetPort: 8083  # Adjust port as needed
+    protocol: TCP

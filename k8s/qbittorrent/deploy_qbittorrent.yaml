@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent-app # Adjust deployment name as needed
+spec:
+  replicas: 1 # Adjust replica count as needed
+  selector:
+    matchLabels:
+      app: qbittorrent-app
+  strategy:
+    type: Recreate  # Adjust strategy as needed
+  template:
+    metadata:
+      labels:
+        app: qbittorrent-app
+    spec:
+      containers:
+      - name: qbittorrent-app
+        image: lscr.io/linuxserver/qbittorrent:5.0.0  # Adjust with custom or latest Docker image
+        ports:
+        - containerPort: 9092 # Adjust port as needed
+          protocol: TCP
+        - containerPort: 51414 # Adjust port as needed
+          protocol: TCP
+        - containerPort: 51414 # Adjust port as needed
+          protocol: UDP
+        env:
+        - name: PUID
+          value: "1000" # The default UID for container
+        - name: PGID
+          value: "1000" # The default GID for container
+        - name: TZ
+          value: "Europe/Zagreb"  # Adjust time zone as needed
+        - name: WEBUI_PORT
+          value: "9092" # Adjust Web-UI port as needed
+        - name: TORRENTING_PORT
+          value: "51414"  # Adjust Torrent pot as needed
+        volumeMounts:
+        - name: appdata # Adjust volume name as needed
+          mountPath: /config  # Default path for mounting inside container
+        - name: downloads # Adjust volume name as needed
+          mountPath: /downloads  # Default path for mounting inside container
+      volumes:
+      - name: appdata
+        hostPath:
+          path: /custom/path/to/qbittorrent/appdata
+      - name: downloads
+        hostPath:
+          path: /custom/path/to/qbittorrent/downloads

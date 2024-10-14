@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission-app  # Adjust deployment name as needed
+spec:
+  replicas: 1 # Adjust replica count as needed
+  selector:
+    matchLabels:
+      app: transmission-app
+  strategy:
+    type: Recreate  # Adjust strategy as needed
+  template:
+    metadata:
+      labels:
+        app: transmission-app
+    spec:
+      containers:
+      - name: transmission-app
+        image: lscr.io/linuxserver/transmission:4.0.6 # Adjust with custom or latest Docker image
+        ports:
+        - containerPort: 9091 # Adjust port as needed
+          protocol: TCP
+        - containerPort: 51413 # Adjust port as needed
+          protocol: TCP
+        - containerPort: 51413 # Adjust port as needed
+          protocol: UDP
+        env:
+        - name: PUID
+          value: "1000" # The default UID for container
+        - name: PGID
+          value: "1000" # The default GID for container
+        - name: TZ
+          value: "Europe/Zagreb"  # Adjust time zone as needed
+        - name: USER  # Adjust secret value name as needed
+          valueFrom:
+            secretKeyRef:
+              name: transmission-app-login  # Adjust secret name as created in secret
+              key: USER # Adjust the value name used from created secret
+        - name: PASS  # Adjust secret value name as needed
+          valueFrom:
+            secretKeyRef:
+              name: transmission-app-login  # Adjust secret name as created in secret
+              key: PASS # Adjust the value name used from created secret
+        volumeMounts:
+        - name: config  # Adjust volume mount name as needed
+          mountPath: /config  # The default path for mounting volume inside container
+        - name: downloads  # Adjust volume mount name as needed
+          mountPath: /downloads  # The default path for mounting volume inside container
+        - name: watch  # Adjust volume mount name as needed
+          mountPath: /watch  # The default path for mounting volume inside container
+      volumes:
+      - name: config
+        hostPath:
+          path: /path/to/custom/transmission/config # Adjust custom volume bind mount folder or use dedicated Physial Volume and Volume Claim
+      - name: downloads
+        hostPath:
+          path: /path/to/custom/transmission/downloads  # Adjust custom volume bind mount folder or use dedicated Physial Volume and Volume Claim
+      - name: watch
+        hostPath:
+          path: /path/to/custom/transmission/watch  # Adjust custom volume bind mount folder or use dedicated Physial Volume and Volume Claim
+

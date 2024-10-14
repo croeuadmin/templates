@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qbittorrent-app # Adjust Ingress object name as needed
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: qbittorrent-app
+spec:
+  rules:
+  - host: FQDN  # Adjust custom domain and URL as needed (example: download.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: / # Adjust path as needed
+        backend:
+          service:
+            name: qbittorrent-app # Adjust service name as needed
+            port:
+              number: 9092  # Adjust port as needed
+  tls:
+  - hosts:
+    - FQDN  # Adjust custom domain and URL as needed (example: download.custom.com)
+    secretName: qbittorrent-app-tls-secret  # Adjust Ingress TLS secret name
+

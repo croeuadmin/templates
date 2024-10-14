@@ -1,0 +1,52 @@
+services:
+
+  ollama-server:
+    image: ollama/ollama:0.1.46 # Update with custom or latest Docker image
+    container_name: ollama-server # Adjust container name as needed
+    restart: unless-stopped
+
+    networks:
+      - llm-network # Rename network as needed
+
+    ports:
+      - 11434:11434 # Replace ports as needed
+
+    extra_hosts:
+      - FQDN:xxx.xxx.xxx.xxx  # Added for FQDN resolving (optional) if exposed on network, otherwise use Docker container DNS
+
+    volumes:
+      - /path/to/ollama:/root/.ollama # Adjust path or replace bind mount with dedicated volume
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+           - driver: nvidia
+             device_ids: ['0']  # Repalce Nvidia GPU ID
+             capabilities: [gpu]
+
+  open-webui:
+
+    image: ghcr.io/open-webui/open-webui:main # Update with custom or latest Docker image
+    container_name: open-webui # Adjust container name as needed
+    restart: unless-stopped
+
+    networks:
+      - llm-network # Rename network as needed
+
+    ports:
+      - 8080:8080 # Replace ports as needed
+
+    environment:
+      - 'OLLAMA_BASE_URL=http://FQDN:11434' # Replace FQDN and PORT as needed, or use Ollama container name in URL
+      - 'WEBUI_SECRET_KEY='
+
+    extra_hosts:
+      - FQDN:xxx.xxx.xxx.xxx  # Added for FQDN resolving (optional) if exposed on network, otherwise use Docker container DNS
+
+    volumes:
+      - /path/to/open-webui:/app/backend/data # Adjust path or replace bind mount with dedicated volume
+
+networks:
+  llm-network:
+    name: llm-network

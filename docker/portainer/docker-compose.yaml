@@ -1,0 +1,17 @@
+services:
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ee:latest  # Adjust image name with custom or latest version
+    restart: always
+    networks: portainer-network # Adjust as needed (optional)
+    ports:
+      - 8000:8000 # Adjust ports as needed (these are default ones)
+      - 9443:9443 # Adjust ports as needed (these are default ones)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Needed as-is for access to Docker configuration
+      - /path/to/custom/portainer/data:/data # Adjust bind mount as needed or use dedicated Docker volume
+
+networks:
+  portainer-network:
+    name: portainer-network 

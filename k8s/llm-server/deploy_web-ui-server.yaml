@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-ui-server # Adjust deployment name as needed
+spec:
+  replicas: 1 # Adjust number of replicas as needed
+  selector:
+    matchLabels:
+      app: web-ui-server
+  strategy:
+    type: Recreate  # Adjust strategy type as needed
+  template:
+    metadata:
+      labels:
+        app: web-ui-server
+    spec:
+      containers:
+      - name: web-ui-server # Adjust container name as needed
+        image: ghcr.io/open-webui/open-webui:main # Adjust with custom or latest Docker image
+        env:
+        - name: OLLAMA_BASE_URL
+          value: 'http://ollama-server-service:11434' # Adjust the URL as needed (based on configured service name for Ollama)
+        ports:
+        - containerPort: 8080  # Adjust container port (this is default port for Ollama)
+        volumeMounts:
+        - name: backend  # Adjust volume name as needed
+          mountPath: /app/backend/data  # The default path for dedicated volume mount in Ollama container
+      volumes:
+      - name: backend
+        hostPath:
+          path: /path/to/custom/open-webui/folder # Adjust the custom bind mount folder path or use dedicated Physical Volume and Volume Claim
+

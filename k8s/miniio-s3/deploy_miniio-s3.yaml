@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniio-s3 # Adjust deployment name as needed
+spec:
+  replicas: 1 # Adjust replica count as needed
+  selector:
+    matchLabels:
+      app: miniio-s3
+  strategy:
+    type: Recreate  # Adjust strategy type as needed
+  template:
+    metadata:
+      labels:
+        app: miniio-s3
+    spec:
+      containers:
+      - name: miniio-s3
+        image: minio/minio:RELEASE.2024-09-22T00-33-43Z # Adjust with custom or latest Docker image
+        command: ["minio"]  # Entry command for the container
+        args: ["server", "/data", "--console-address", ":9001" ]  # Custom options for Docker entry command
+        ports:
+        - containerPort: 9000 # Adjust the port as needed
+          protocol: TCP
+        - containerPort: 9001 # Adjust the port as needed
+          protocol: TCP
+        env:
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: miniio-s3-creds # Adjust secret key name as needed
+              key: USER # Adjust secret key value as needed
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: miniio-s3-creds# Adjust secret key name as needed
+              key: PASS # Adjust secret key value as needed
+        volumeMounts:
+        - name: data  # Adjust volume name as needed
+          mountPath: /data  # Default path for mounting volume inside container
+      volumes:
+      - name: data
+        hostPath:
+          path: /path/to/custom/miniio-s3/data/folder # Adjust the custom bind mount folder as needed or use dedicated Physical Volume and Volume Claim

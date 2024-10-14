@@ -1,0 +1,19 @@
+services:
+  neo4j-db:
+    image: neo4j:5.24.1-community # Use custom or latest Docker image
+    container_name: neo4j-db  # Adjust container name as needed
+    networks:
+      - neo4j-network # Adjust network name as needed
+    ports:
+      - 7474:7474 # Adjust ports as needed (these are default ones)
+      - 7688:7687 # Adjust ports as needed (these are default ones)
+    volumes:
+      - neo4j_data:/data  # Use dedicted Docker volume, rename as needed
+
+networks:
+  neo4j-network:
+    name: neo4j-network
+
+volumes:
+  neo4j_data:
+    name: neo4j_data

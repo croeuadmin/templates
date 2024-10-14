@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-server # Adjust deployment name as needed
+spec:
+  replicas: 1 # Adjust number of replicas as needed
+  selector:
+    matchLabels:
+      app: ollama-server
+  strategy:
+    type: Recreate  # Adjust strategy type as needed
+  template:
+    metadata:
+      labels:
+        app: ollama-server
+    spec:
+      containers:
+      - name: ollama-server # Adjust container name as needed
+        image: ollama/ollama:0.3.10 # Adjust with custom or latest Docker image
+        ports:
+        - containerPort: 11434  # Adjust container port (this is default port for Ollama)
+        resources:
+          requests:
+            nvidia.com/gpu: 1 # Adjust Nvidia GPU number as needed
+          limits:
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - name: ollama  # Adjust volume name as needed
+          mountPath: /root/.ollama  # The default path for dedicated volume mount in Ollama container
+      volumes:
+      - name: ollama
+        hostPath:
+          path: /path/to/custom/ollama/folder # Adjust the custom bind mount folder path or use dedicated Physical Volume and Volume Claim
+

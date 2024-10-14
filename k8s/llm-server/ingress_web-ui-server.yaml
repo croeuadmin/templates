@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ui-server # Adjust Ingress object name as needed
+  annotations:
+    spec.ingressClassName: public
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer-prod
+  labels:
+    app: web-ui-server
+spec:
+  rules:
+  - host: FQDN  # Adjust with custom domain and URL (www.custom.com)
+    http:
+      paths:
+      - pathType: Prefix
+        path: / # Adjust Ingress path as needed
+        backend:
+          service:
+            name: web-ui-server-service # Adjust the service name as needed
+            port:
+              number: 8080  # Adjust the port as needed (defined in service)
+  tls:
+  - hosts:
+    - FQDN  # Adjust with custom domain and URL (www.custom.com)
+    secretName: web-ui-server-tls-secret  # Adjust the Ingress TLS secret name
+
