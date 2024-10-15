@@ -24,6 +24,11 @@ spec:
             nvidia.com/gpu: 1 # Adjust Nvidia GPU number as needed
           limits:
             nvidia.com/gpu: 1
+        env:
+        - name: NVIDIA_VISIBLE_DEVICES  # Environment variable for specifying Nvidia GPU for use
+          value: "0"  # Adjust as needed (use GPU ID, can be used with multuple GPUs separated by comma, example: "0","1")
+        - name: NVIDIA_DRIVER_CAPABILITIES  # Environment variable for specifiying GPU capabilities used by specified GPU
+          value: "compute,utility"  # Adjust if needed
         volumeMounts:
         - name: ollama  # Adjust volume name as needed
           mountPath: /root/.ollama  # The default path for dedicated volume mount in Ollama container
