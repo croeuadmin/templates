@@ -2,7 +2,7 @@ services:
 
   registry:
     container_name: registry
-    image: registry:2.8.3
+    image: registry:2.8.3 # Update with custom or latest Docker image
     restart: unless-stopped
     networks:
       - registry-network
@@ -30,7 +30,7 @@ services:
 
   registry-ui:
     container_name: registry-ui
-    image: joxit/docker-registry-ui:2.5.7
+    image: joxit/docker-registry-ui:2.5.7 # Update with custom or latest Docker image
     restart: unless-stopped
     depends_on:
       - registry
