@@ -2,7 +2,7 @@ services:
 
   portainer:
     container_name: portainer
-    image: portainer/portainer-ee:latest  # Adjust image name with custom or latest version
+    image: portainer/portainer-ce:2.21.4  # Adjust image name with custom or latest version
     restart: always
     networks: portainer-network # Adjust as needed (optional)
     ports:
