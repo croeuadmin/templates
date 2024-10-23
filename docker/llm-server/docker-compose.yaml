@@ -22,7 +22,7 @@ services:
         reservations:
           devices:
            - driver: nvidia
-             device_ids: ['0']  # Repalce Nvidia GPU ID
+             device_ids: ['0']  # Repalce Nvidia GPU ID or use count instead of id's
              capabilities: [gpu]
 
   open-webui:

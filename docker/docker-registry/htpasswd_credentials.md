@@ -4,7 +4,7 @@
 mkdir auth
 docker run \
  --entrypoint htpasswd \
- httpd:2 -Bbn testuser testpassword > auth/htpasswd
+ httpd:2 -Bbn user password > auth/htpasswd
 
 # Docker run command example
 mkdir auth
