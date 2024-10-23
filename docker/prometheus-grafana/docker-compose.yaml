@@ -32,6 +32,8 @@ services:
     environment:
       NVIDIA_VISIBLE_DEVICES: 'all'
       NVIDIA_DRIVER_CAPABILITIES: 'compute,utility'
+    cap_add:
+      - SYS_ADMIN # Add required capabilities to Docker container
     deploy:
       resources:
         reservations:
