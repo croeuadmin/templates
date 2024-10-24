@@ -1,0 +1,19 @@
+services:
+  firefox:
+    image: lscr.io/linuxserver/firefox:131.0.3  # Adjust as needed or use latest
+    container_name: firefox # Adjust as needed
+    security_opt:
+      - seccomp:unconfined  # Optional Docker security parameter. ! Comment out or delete for better security !
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC  # Adjust timezone as needed
+      - FIREFOX_CLI=https://www.linuxserver.io/ # Optional, adjust default web site on Firefox start
+    volumes:
+      - /path/to/config:/config # Optional, adjust if needed, comment out if not used
+      - /path/on/host/for/use/within:/host_docs # Optional, adjust if needed, comment out if not used (for downloads, etc.)
+    ports:
+      - 3000:3000   # http port for Firefox access, comment out if not needed
+      - 3001:3001   # https port for Firefox access, adjust if needed
+    shm_size: "1gb"
+    restart: unless-stopped
