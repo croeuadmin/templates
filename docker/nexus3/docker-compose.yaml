@@ -1,0 +1,16 @@
+services:
+    nexus3:
+      image: sonatype/nexus3:3.73.0 # Adjust image or use latest
+      container_name: nexus3    # Adjust as needed
+      volumes:
+        - /path/to/custom/nexus-data:/nexus-data   # Adjust as needed
+      networks:
+        - nexus3-net    # Adjust as needed
+      ports:
+        - 8081:8081 # Default port for Nexus3 admin console
+        - 8082:8082 # Adjust as needed, placeholder for additional repo/registry within Nexus3
+        - 8083:8083 # Adjust as needed, placeholder for additional repo/registry within Nexus3
+
+networks:
+  nexus3-net:    # Adjust as configured above
+    name: nexus3-net    # Adjust as configured above
