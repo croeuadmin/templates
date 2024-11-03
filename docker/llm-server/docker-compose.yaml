@@ -1,7 +1,7 @@
 services:
 
   ollama-server:
-    image: ollama/ollama:0.1.46 # Update with custom or latest Docker image
+    image: ollama/ollama:0.3.14 # Update with custom or latest Docker image
     container_name: ollama-server # Adjust container name as needed
     restart: unless-stopped
 
@@ -27,7 +27,7 @@ services:
 
   open-webui:
 
-    image: ghcr.io/open-webui/open-webui:main # Update with custom or latest Docker image
+    image: ghcr.io/open-webui/open-webui:v0.3.35 # Update with custom or latest Docker image
     container_name: open-webui # Adjust container name as needed
     restart: unless-stopped
 
