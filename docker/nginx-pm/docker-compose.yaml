@@ -2,6 +2,7 @@ services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'  # Adjust with custom or latest Docker image
     restart: unless-stopped
+    container_name: nginx-pm
     ports:
       - '80:80' # NginX Proxy Manager public HTTP Port
       - '443:443' # NginX Proxy Manager public HTTPS Port
@@ -21,6 +22,7 @@ services:
   db:
     image: 'jc21/mariadb-aria:latest'  # Adjust with custom or latest Docker image
     restart: unless-stopped
+    container_name: mysql-server
     environment:
       MYSQL_ROOT_PASSWORD: 'mysql-root-password' # Adjust as needed (MySQL root user password)
       MYSQL_DATABASE: 'nginx-proxy-db' # Adjust as needed (MySQL database name)

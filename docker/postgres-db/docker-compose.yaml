@@ -7,8 +7,8 @@ services:
     environment:
       POSTGRES_DB: 'postgres-db'  # Adjust Postgres database name
       POSTGRES_USER: 'postgres-user'  # Adjust Postgres user name
-      POSTGRES_PASSWORD: 'mgUc-83fQ-zOp1-91mT'  # Adjust Postgres user password
-      POSTGRES_ROOT_PASSWORD: 'k3Ct-0c1W-jV65-qL20' # Adjust Postgres root user password
+      POSTGRES_PASSWORD: 'postgres-password'  # Adjust Postgres user password
+      POSTGRES_ROOT_PASSWORD: 'postgres-root-password' # Adjust Postgres root user password
 
     networks:
       - postgres-network  # Adjust Postgres network name if needed
